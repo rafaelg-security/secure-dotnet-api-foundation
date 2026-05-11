@@ -44,6 +44,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
+          build-mode: manual
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
@@ -53,7 +54,10 @@ jobs:
       - name: Restore
         run: dotnet restore SecureDotnetApiFoundation.sln
 
-      - name: Build
+      - name: Clean
+        run: dotnet clean SecureDotnetApiFoundation.sln --configuration Release
+
+      - name: Build for CodeQL
         run: dotnet build SecureDotnetApiFoundation.sln --configuration Release --no-restore
 
       - name: Perform CodeQL Analysis
