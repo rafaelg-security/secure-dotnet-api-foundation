@@ -16,6 +16,14 @@ The project demonstrates secure API engineering practices including:
 
 ---
 
+## Swagger UI
+
+The API exposes secured healthcare-oriented endpoints protected with JWT authentication and RBAC authorization policies.
+
+![Swagger UI](docs/images/swagger-ui.png)
+
+---
+
 ## Architecture
 
 Main domains:
@@ -24,6 +32,15 @@ Main domains:
 - Patients
 - MedicalRecords
 - AuditLogs
+
+### High-Level Flow
+
+1. User authenticates through `/api/auth/login`
+2. JWT token is generated
+3. Protected endpoints require valid JWT authentication
+4. RBAC policies enforce least privilege access
+5. Sensitive actions are recorded through audit logging
+6. Security middleware applies hardening controls and correlation tracing
 
 ---
 
@@ -38,6 +55,8 @@ Main domains:
 | Security Headers | HTTP hardening |
 | Exception Middleware | Prevent information leakage |
 | Correlation IDs | Request traceability |
+
+---
 
 ## Authentication
 
@@ -56,12 +75,43 @@ Swagger integration allows authenticated testing directly from the UI.
 
 Policy-based authorization is used to protect sensitive endpoints.
 
-Example policies:
+### Example Policies
 
-- CanViewPatients
 - CanViewMedicalRecords
 - CanManageMedicalRecords
-- CanViewAuditLogs
+- Auditor/Admin access restrictions
+
+### Example Roles
+
+- Doctor
+- Nurse
+- Auditor
+- Admin
+
+---
+
+## Threat Model
+
+Main threats considered during development:
+
+- Broken Access Control
+- Unauthorized medical record access
+- Brute force authentication attacks
+- JWT abuse
+- Excessive API usage
+- Information disclosure
+- Missing audit traceability
+
+### Mitigations Implemented
+
+- RBAC authorization policies
+- JWT validation
+- Rate limiting
+- Audit logging
+- DTO-based input validation
+- Security headers
+- Exception handling middleware
+- Correlation IDs
 
 ---
 
@@ -78,15 +128,60 @@ Example policies:
 
 ---
 
-## Security Testing Scenarios
+## Security Testing
 
-The API was tested against common AppSec scenarios:
+Tested scenarios include:
 
-- Access without JWT
-- Invalid role access
-- Invalid JWT tokens
+- Access without JWT token
+- Access with invalid roles
+- Expired JWT tokens
 - Brute force login attempts
-- IDOR-style resource access testing
+- Unauthorized medical record access attempts
+- Invalid payload validation
+- Rate limiting behavior
+- Authentication failure logging
+- Authorization enforcement testing
+
+---
+
+## Middleware Security Features
+
+Custom middleware protections include:
+
+- Correlation ID tracking
+- Centralized exception handling
+- Secure response headers
+- Request traceability support
+
+### Security Headers
+
+- X-Content-Type-Options
+- X-Frame-Options
+- Referrer-Policy
+- Permissions-Policy
+
+---
+
+## Audit Logging
+
+Security-relevant actions are logged for traceability and monitoring purposes.
+
+### Logged Events
+
+- Successful login attempts
+- Failed login attempts
+- Medical record access
+- Medical record creation
+- Audit log access
+
+### Logged Metadata
+
+- Username
+- Role
+- Timestamp
+- Correlation ID
+- IP address
+- Action performed
 
 ---
 
@@ -98,10 +193,33 @@ The API was tested against common AppSec scenarios:
 - Swagger / OpenAPI
 - BCrypt
 - GitHub Actions
+- xUnit
+- Docker
+
+---
+
+## CI/CD and DevSecOps
+
+The repository integrates GitHub Actions CI workflows for automated validation and pipeline testing.
+
+Current pipeline capabilities include:
+
+- Automated build validation
+- CI workflow execution
+- Security-oriented repository structure
+
+Planned improvements:
+
+- CodeQL integration
+- Dependency vulnerability scanning
+- Secrets scanning
+- Automated security testing
 
 ---
 
 ## Future Improvements
+
+Planned security enhancements include:
 
 - FluentValidation integration
 - Refresh token support
@@ -110,6 +228,22 @@ The API was tested against common AppSec scenarios:
 - Dependency vulnerability scanning
 - Secrets scanning
 - API versioning
+- Structured SIEM-friendly logging
+- Centralized logging integration
+- Container security hardening
+
+---
+
+## Project Goals
+
+This repository was designed to demonstrate:
+
+- Application Security engineering mindset
+- Secure SDLC practices
+- Secure API architecture
+- Technical GRC awareness
+- Defensive security controls
+- AppSec-oriented development workflows
 
 ---
 
