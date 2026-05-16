@@ -1,46 +1,73 @@
-using System.Text;
-using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using SecureDotnetApiFoundation.Api.Data;
 using SecureDotnetApiFoundation.Api.Middleware;
 using SecureDotnetApiFoundation.Api.Services;
+using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("SecureHealthcareDb"));
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "SecureDotnetApiFoundation.Api",
+        Version = "v1"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter JWT Bearer token"
+    });
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("SecureHealthcareDb"));
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<AuditService>();
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key missing.");
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("JWT key missing.");
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        ClockSkew = TimeSpan.FromMinutes(2)
-    };
-});
+        options.RequireHttpsMetadata = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ClockSkew = TimeSpan.FromMinutes(2)
+        };
+    });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("CanViewMedicalRecords", policy => policy.RequireRole("Doctor", "Nurse", "Auditor", "Admin"));
-    options.AddPolicy("CanManageMedicalRecords", policy => policy.RequireRole("Doctor", "Admin"));
+    options.AddPolicy("CanViewMedicalRecords",
+        policy => policy.RequireRole("Doctor", "Nurse", "Auditor", "Admin"));
+
+    options.AddPolicy("CanManageMedicalRecords",
+        policy => policy.RequireRole("Doctor", "Admin"));
 });
 
 builder.Services.AddRateLimiter(options =>
@@ -52,6 +79,7 @@ builder.Services.AddRateLimiter(options =>
         config.QueueLimit = 0;
         config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
     });
+
     options.AddFixedWindowLimiter("ApiPolicy", config =>
     {
         config.Window = TimeSpan.FromMinutes(1);
@@ -84,14 +112,25 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SecureDotnetApiFoundation.Api v1");
+        options.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();
+
 app.UseRateLimiter();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/health", () => Results.Ok("Healthy"));
+
 app.MapControllers().RequireRateLimiting("ApiPolicy");
+
 app.Run();
 
 public partial class Program { }

@@ -1,3 +1,5 @@
+using Xunit;
+
 namespace SecureDotnetApiFoundation.Tests;
 public class PasswordHashingTests
 {

@@ -8,4 +8,7 @@ public class AuditLog
     public string Resource { get; set; } = string.Empty;
     public DateTime TimestampUtc { get; set; } = DateTime.UtcNow;
     public string CorrelationId { get; set; } = string.Empty;
+    public string Outcome { get; set; } = string.Empty;
+    public string Details { get; set; } = string.Empty;
+    public string? IpAddress { get; set; }
 }
