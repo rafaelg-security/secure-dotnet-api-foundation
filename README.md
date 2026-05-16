@@ -1,60 +1,120 @@
-# secure-dotnet-api-foundation
+# Secure .NET API Foundation
 
-A .NET 10 secure API foundation project demonstrating enterprise secure engineering, Application Security, secure SDLC, and regulated-system awareness.
+## Overview
 
-## Purpose
+Secure .NET API Foundation is a healthcare-oriented ASP.NET Core API project focused on Application Security, Secure SDLC and Technical GRC concepts.
 
-This project is part of a cybersecurity transition portfolio focused on:
+The project demonstrates secure API engineering practices including:
 
-- Application Security
-- Secure Engineering
-- Secure SDLC
-- Technical GRC foundations
-- Healthcare cybersecurity foundations
-- Cloud-ready enterprise API architecture
-
-## What This Project Demonstrates
-
-- ASP.NET Core API architecture
 - JWT authentication
-- role-based authorization
-- policy-based authorization
-- secure middleware
-- secure headers
-- rate limiting
-- audit logging
-- DTO-based API responses
-- secure error handling
-- correlation IDs
-- healthcare-style regulated data access
-- CI pipeline with CodeQL
+- Role-Based Access Control (RBAC)
+- Audit logging
+- API hardening
+- Rate limiting
+- Secure middleware
+- OWASP-aligned controls
 
-## Demo Credentials
+---
 
-```text
-doctor@example.com / Doctor123!
-nurse@example.com / Nurse123!
-auditor@example.com / Auditor123!
-admin@example.com / Admin123!
-```
+## Architecture
 
-## Run Locally
+Main domains:
 
-```bash
-dotnet restore
-dotnet build
-dotnet test
-dotnet run --project src/SecureDotnetApiFoundation.Api
-```
+- Auth
+- Patients
+- MedicalRecords
+- AuditLogs
 
-Swagger:
+---
 
-```text
-https://localhost:5001/swagger
-```
+## Security Controls
 
-## Documentation
+| Control | Purpose |
+|---|---|
+| JWT Authentication | Secure user authentication |
+| RBAC Policies | Least privilege authorization |
+| Rate Limiting | Abuse and brute force mitigation |
+| Audit Logging | Accountability and traceability |
+| Security Headers | HTTP hardening |
+| Exception Middleware | Prevent information leakage |
+| Correlation IDs | Request traceability |
 
-- `docs/SECURITY_CONTROLS.md`
-- `docs/THREAT_MODEL.md`
-- `docs/OWASP_MAPPING.md`
+---
+
+## Authentication
+
+The API uses JWT Bearer authentication with:
+
+- issuer validation
+- audience validation
+- signing key validation
+- expiration validation
+
+Swagger integration allows authenticated testing directly from the UI.
+
+---
+
+## Authorization
+
+Policy-based authorization is used to protect sensitive endpoints.
+
+Example policies:
+
+- CanViewPatients
+- CanViewMedicalRecords
+- CanManageMedicalRecords
+- CanViewAuditLogs
+
+---
+
+## OWASP API Security Mapping
+
+| OWASP Risk | Mitigation |
+|---|---|
+| Broken Access Control | RBAC policies |
+| Authentication Failures | JWT validation |
+| Security Misconfiguration | Security headers |
+| Injection | DTO validation |
+| Abuse / DoS | Rate limiting |
+| Logging Failures | Audit logging |
+
+---
+
+## Security Testing Scenarios
+
+The API was tested against common AppSec scenarios:
+
+- Access without JWT
+- Invalid role access
+- Invalid JWT tokens
+- Brute force login attempts
+- IDOR-style resource access testing
+
+---
+
+## Technologies
+
+- ASP.NET Core
+- Entity Framework Core
+- JWT Bearer Authentication
+- Swagger / OpenAPI
+- BCrypt
+- GitHub Actions
+
+---
+
+## Future Improvements
+
+- FluentValidation integration
+- Refresh token support
+- Integration security testing
+- CodeQL security scanning
+- Dependency vulnerability scanning
+- Secrets scanning
+- API versioning
+
+---
+
+## Security Disclaimer
+
+This project is intended for educational and portfolio purposes only.
