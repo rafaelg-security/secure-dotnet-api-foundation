@@ -20,7 +20,7 @@ The project demonstrates secure API engineering practices including:
 
 The API exposes secured healthcare-oriented endpoints protected with JWT authentication and RBAC authorization policies.
 
-![Swagger UI](swagger-ui.png)
+![Swagger UI](docs/images/swagger-ui.png)
 
 ---
 
@@ -35,7 +35,7 @@ Main domains:
 
 ## Architecture Diagram
 
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](docs/images/architecture-diagram.png)
 
 ### High-Level Flow
 
