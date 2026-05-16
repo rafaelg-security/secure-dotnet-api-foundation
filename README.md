@@ -20,7 +20,7 @@ The project demonstrates secure API engineering practices including:
 
 The API exposes secured healthcare-oriented endpoints protected with JWT authentication and RBAC authorization policies.
 
-![Swagger UI](docs/images/swagger-ui.png)
+![Swagger UI](swagger-ui.png)
 
 ---
 
