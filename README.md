@@ -39,8 +39,6 @@ Main domains:
 | Exception Middleware | Prevent information leakage |
 | Correlation IDs | Request traceability |
 
----
-
 ## Authentication
 
 The API uses JWT Bearer authentication with:
