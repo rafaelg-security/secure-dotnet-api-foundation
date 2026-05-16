@@ -126,16 +126,18 @@ Main threats considered during development:
 
 ---
 
-## OWASP API Security Mapping
+## OWASP API Security Top 10 Mapping
 
-| OWASP Risk | Mitigation |
+| OWASP API Risk | Project Mitigation |
 |---|---|
-| Broken Access Control | RBAC policies |
-| Authentication Failures | JWT validation |
-| Security Misconfiguration | Security headers |
-| Injection | DTO validation |
-| Abuse / DoS | Rate limiting |
-| Logging Failures | Audit logging |
+| API1: Broken Object Level Authorization | RBAC authorization policies and protected patient/medical record endpoints |
+| API2: Broken Authentication | JWT Bearer authentication with issuer, audience, signing key and lifetime validation |
+| API3: Broken Object Property Level Authorization | DTO-based request and response models to reduce unnecessary data exposure |
+| API4: Unrestricted Resource Consumption | Rate limiting policies for authentication and API endpoints |
+| API5: Broken Function Level Authorization | Policy-based authorization for patients, medical records and audit logs |
+| API8: Security Misconfiguration | Security headers, HTTPS redirection and centralized exception handling |
+| API9: Improper Inventory Management | Swagger/OpenAPI documentation and structured API routes |
+| API10: Unsafe Consumption of APIs | Controlled backend-only data access through EF Core and internal services |
 
 ---
 
