@@ -35,7 +35,7 @@ Main domains:
 
 ## Architecture Diagram
 
-![Architecture Diagram](docs/images/architecture-diagram.png)
+![Architecture Diagram](architecture-diagram.png)
 
 ### High-Level Flow
 
