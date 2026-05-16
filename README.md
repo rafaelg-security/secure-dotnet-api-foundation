@@ -141,6 +141,41 @@ Main threats considered during development:
 
 ---
 
+---
+
+## Security Controls
+
+### Authentication & Authorization
+- JWT Bearer authentication
+- Role-Based Access Control (RBAC)
+- Policy-based authorization
+- Protected sensitive endpoints with `[Authorize]`
+
+### API Hardening
+- HTTPS redirection enabled
+- Security headers configured
+- DTO-based request/response isolation
+- Global exception handling middleware
+
+### Monitoring & Traceability
+- Centralized audit logging
+- Correlation ID middleware
+- Security-relevant event tracking
+- Authentication event logging
+
+### Abuse Protection
+- Rate limiting on authentication endpoints
+- API request throttling
+- Brute force mitigation controls
+
+### Secure Development Practices
+- Separation of concerns architecture
+- Service layer abstraction
+- Minimal data exposure
+- OWASP-aligned controls
+
+---
+
 ## Security Testing
 
 Tested scenarios include:
