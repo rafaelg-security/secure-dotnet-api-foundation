@@ -102,16 +102,27 @@ Main threats considered during development:
 - Information disclosure
 - Missing audit traceability
 
-### Mitigations Implemented
+### Security Mitigations Implemented
 
-- RBAC authorization policies
-- JWT validation
-- Rate limiting
-- Audit logging
-- DTO-based input validation
-- Security headers
-- Exception handling middleware
-- Correlation IDs
+| Threat | Mitigation |
+|---|---|
+| Broken Access Control | RBAC authorization policies |
+| Unauthorized medical record access | Role-based endpoint protection |
+| Brute force authentication attacks | ASP.NET Core Rate Limiting |
+| JWT abuse | JWT validation and expiration |
+| Excessive API usage | Fixed-window rate limiting |
+| Information disclosure | DTO-based response models |
+| Missing audit traceability | Centralized audit logging |
+| Unhandled exceptions | Global exception middleware |
+| Request correlation issues | Correlation ID middleware |
+
+### Security Design Principles
+
+- Least privilege access
+- Defense in depth
+- Secure-by-default APIs
+- Traceability and accountability
+- Reduced attack surface
 
 ---
 
