@@ -33,6 +33,10 @@ Main domains:
 - MedicalRecords
 - AuditLogs
 
+## Architecture Diagram
+
+![Architecture Diagram](docs/images/architecture-diagram.png)
+
 ### High-Level Flow
 
 1. User authenticates through `/api/auth/login`

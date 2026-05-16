@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9A1BB79-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{D4A484AB-631B-4B63-860B-57C2D2420730}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\architecture-diagram.png = ..\..\..\..\Downloads\architecture-diagram.png
 		swagger-ui.png = swagger-ui.png
 	EndProjectSection
 EndProject
